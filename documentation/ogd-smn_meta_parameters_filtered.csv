@@ -1,0 +1,33 @@
+parameter_shortname;parameter_description_fr;parameter_description_en;parameter_unit
+prestas0;"Pression atmosphérique à l'altitude du baromètre (QFE); valeur instantanée";"Atmospheric pressure at barometric altitude (QFE); current value";hPa
+tre200s0;"Température de l'air à 2 m du sol; valeur instantanée";"Air temperature 2 m above ground; current value";°C
+tre005s0;"Température de l'air à 5 cm de l'herbe; valeur instantanée";"Air temperature at 5 cm above grass; current value";°C
+rre150z0;"Précipitations; sommation sur 10 minutes";"Precipitation; ten minutes total";mm
+sre000z0;"Durée d'ensoleillement; sommation sur 10 minutes";"Sunshine duration; ten minutes total";min
+gre000z0;"Rayonnement global; moyenne sur 10 minutes";"Global radiation; ten minutes mean";W/m²
+ure200s0;"Humidité de l'air relative à 2 m du sol; valeur instantanée";"Relative air humidity 2 m above ground; current value";%
+fkl010z1;"Rafale (intégration 1 s); maximum en m/s";"Gust peak (one second); maximum in m/s";m/s
+tso005s0;"Température du sol à 5 cm de profondeur; valeur instantanée";"Soil temperature at 5 cm depth; current value";°C
+tso010s0;"Température du sol à 10 cm de profondeur; valeur instantanée";"Soil temperature at 10 cm depth; current value";°C
+tso020s0;"Température du sol à 20 cm de profondeur; valeur instantanée";"Soil temperature at 20 cm depth; current value";°C
+ods000z0;"Rayonnement diffus; moyenne sur 10 minutes";"Diffuse radiation; ten minutes mean";W/m²
+oli000z0;"Irradiation par onde longue; moyenne sur 10 minutes";"Longwave incoming radiation; ten minutes mean";W/m²
+tde200s0;"Point de rosée à 2 m du sol; valeur instantanée";"Dew point 2 m above ground; current value";°C
+fve010z0;"Vitesse du vent vectorielle; moyenne sur 10 minutes en m/s";"Wind speed vectoriel; ten minutes mean in m/s";m/s
+fkl010z0;"Vitesse du vent scalaire; moyenne sur 10 minutes en m/s";"Wind speed scalar; ten minutes mean in m/s";m/s
+dkl010z0;"Direction du vent; moyenne sur 10 minutes";"Wind direction; ten minutes mean";°
+tresurs0;"Température de l'air à la surface du sol; valeur instantanée";"Air temperature at surface; current value";°C
+xchills0;"Chill température; valeur instantanée";"Chill temperature; current value";°C
+wcc006s0;Foehn index;"Foehn index";Code
+fu3010z0;"Vitesse du vent; moyenne sur 10 minutes en km/h";"Wind speed; ten minutes mean in km/h";km/h
+fkl010z3;"Rafale (intégration 3 s); maximum en m/s";"Gust peak (three seconds); maximum in m/s";m/s
+fu3010z1;"Rafale (intégration 1 s); maximum en km/h";"Gust peak (one second); maximum in km/h";km/h
+fu3010z3;"Rafale (intégration 3 s); maximum en km/h";"Gust peak (three seconds); maximum in km/h";km/h
+htoauts0;"Hauteur de neige (mesurée automatiquement); valeur instantanée";"Snow depth (automatic measurement); current value";cm
+olo000z0;"Rayonnement par onde longue; moyenne sur 10 minutes";"Longwave outgoing radiation; ten minute mean";W/m²
+osr000z0;"Rayonnement réfléchi par onde courte; moyenne sur 10 minutes";"Shortwave reflected radiation; ten minute mean";W/m²
+pva200s0;"Pression de vapeur à 2 m du sol; valeur instantanée";"Vapour pressure 2 m above ground; current value";hPa
+pp0qnhs0;"Pression atmosphérique réduite avec l'atmosphère standard (QNH); valeur instantanée";"Atmospheric pressure reduced to sea level according to standard atmosphere (QNH); current value";hPa
+pp0qffs0;"Pression atmosphérique réduite au niveau de la mer (QFF); valeur instantanée";"Atmospheric pressure reduced to sea level (QFF); current value";hPa
+ppz850s0;"Altitude géopotentielle de la surface de 850 hPa; valeur instantanée";"Geopotential height of the 850 hPA level; current value";gpm
+ppz700s0;"Altitude géopotentielle de la surface de 700 hPa; valeur instantanée";"Geopotential height of the 700 hPA level; current value";gpm
