@@ -56,32 +56,49 @@ def get_git_info():
 
 
 def log_run(commit, branch, config_summary, metrics, elapsed_time):
-    run_log_path = "runs/run_log.json"
+    run_id = f"run_{time.strftime('%Y%m%d_%H%M%S')}"
+    run_dir = f"runs/{run_id}"
+    os.makedirs(run_dir, exist_ok=True)
+    os.makedirs(f"{run_dir}/models", exist_ok=True)
+
     run_entry = {
+        "run_id": run_id,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "git_commit": commit,
         "git_branch": branch,
-        "config": config_summary,
-        "metrics": metrics,
         "elapsed_seconds": round(elapsed_time, 1),
     }
 
+    run_log_path = "runs/run_log.json"
     if os.path.exists(run_log_path):
         with open(run_log_path, "r") as f:
             runs = json.load(f)
     else:
         runs = []
 
-    previous_best_r2 = max((r["metrics"]["r2"] for r in runs), default=None)
+    previous_best_r2 = max(
+        (r.get("metrics", {}).get("r2", 0) for r in runs), default=None
+    )
     is_best = metrics["r2"] > previous_best_r2 if previous_best_r2 is not None else True
     run_entry["is_best"] = is_best
+    run_entry["metrics"] = {
+        "r2": metrics["r2"],
+        "mae": metrics["mae"],
+        "rmse": metrics["rmse"],
+    }
 
     runs.append(run_entry)
 
     with open(run_log_path, "w") as f:
         json.dump(runs, f, indent=2)
 
-    return is_best, previous_best_r2
+    with open(f"{run_dir}/config.json", "w") as f:
+        json.dump(config_summary, f, indent=2)
+
+    with open(f"{run_dir}/metrics.json", "w") as f:
+        json.dump(metrics, f, indent=2)
+
+    return is_best, previous_best_r2, run_id
 
 
 def prepare_data():
@@ -195,7 +212,7 @@ def evaluate_model(model, X_test, y_test, feature_cols):
     }
 
 
-def save_results(model, metrics, cv_results):
+def save_results(model, metrics, cv_results, run_id=None):
     print("\n" + "=" * 50)
     print("STEP 4: Saving results")
     print("=" * 50)
@@ -215,6 +232,17 @@ def save_results(model, metrics, cv_results):
     )
     print("  Saved: results/feature_importance.csv")
 
+    if run_id:
+        run_dir = f"runs/{run_id}"
+        model.save_model(f"{run_dir}/model.json")
+        with open(f"{run_dir}/metrics.json", "w") as f:
+            json.dump(metrics, f, indent=2)
+        pd.DataFrame(cv_results).to_csv(f"{run_dir}/cv_results.csv", index=False)
+        pd.DataFrame(metrics["feature_importance"]).to_csv(
+            f"{run_dir}/feature_importance.csv", index=False
+        )
+        print(f"  Saved: {run_dir}/")
+
 
 def main():
     start_time = time.time()
@@ -230,8 +258,6 @@ def main():
 
     metrics = evaluate_model(best_model, X_test, y_test, feature_cols)
 
-    save_results(best_model, metrics, cv_results)
-
     elapsed_time = time.time() - start_time
 
     commit, branch = get_git_info()
@@ -245,25 +271,31 @@ def main():
         "grid_search": GRID_SEARCH_PARAMS,
     }
 
-    log_run(commit, branch, config_summary, metrics, elapsed_time)
-    print(f"\n  Saved: runs/run_log.json")
+    is_best, previous_best_r2, run_id = log_run(
+        commit, branch, config_summary, metrics, elapsed_time
+    )
+
+    save_results(best_model, metrics, cv_results, run_id)
+
+    with open(f"runs/{run_id}/config.json", "w") as f:
+        json.dump(config_summary, f, indent=2)
+
+    print(f"\n  Saved: runs/run_log.json and runs/{run_id}/")
 
     run_log_path = "runs/run_log.json"
     with open(run_log_path, "r") as f:
         runs = json.load(f)
-    current_run = runs[-1]
 
     print("\n" + "=" * 50)
     print("PIPELINE COMPLETE")
     print(f"  Elapsed time: {elapsed_time:.1f} seconds")
-    if current_run.get("is_best"):
-        print(
-            f"  ★ NEW BEST R²: {metrics['r2']:.4f} (previous best: {runs[-2]['metrics']['r2']:.4f})"
-            if len(runs) > 1
-            else f"  ★ FIRST RUN - R²: {metrics['r2']:.4f}"
-        )
+    if is_best:
+        prev = f"{previous_best_r2:.4f}" if previous_best_r2 else "N/A"
+        print(f"  ★ NEW BEST R²: {metrics['r2']:.4f} (previous best: {prev})")
     else:
-        print(f"  Best R² so far: {max(r['metrics']['r2'] for r in runs):.4f}")
+        print(
+            f"  Best R² so far: {max(r.get('metrics', {}).get('r2', 0) for r in runs):.4f}"
+        )
     print("=" * 50)
 
 
