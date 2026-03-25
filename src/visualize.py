@@ -2,6 +2,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 
 import json
 import pandas as pd
@@ -71,6 +72,7 @@ plt.suptitle(
     f"Wind Speed Prediction - Station {STATION}", fontsize=14, fontweight="bold"
 )
 plt.tight_layout()
+plt.show()
 plt.savefig("results/prediction_plots.png", dpi=150, bbox_inches="tight")
 plt.close()
 
