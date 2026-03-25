@@ -102,11 +102,13 @@ def log_run(commit, branch, config_summary, metrics, elapsed_time):
 
 
 def prepare_data():
+    step_start = time.time()
     print("=" * 50)
     print("STEP 1: Loading and preprocessing data")
     print("=" * 50)
 
     print("\nLoading training data (2000-2019)...")
+    t0 = time.time()
     train_raw = rename_columns(load_train_data())
     print(f"  Raw training shape: {train_raw.shape}")
 
@@ -141,10 +143,14 @@ def prepare_data():
     print(f"  X_train: {X_train.shape}, y_train: {y_train.shape}")
     print(f"  X_test:  {X_test.shape}, y_test:  {y_test.shape}")
 
-    return X_train, y_train, X_test, y_test, feature_cols
+    step_time = time.time() - step_start
+    print(f"\n  Step 1 time: {step_time:.1f}s")
+
+    return X_train, y_train, X_test, y_test, feature_cols, step_time
 
 
 def grid_search(X_train, y_train):
+    step_start = time.time()
     print("\n" + "=" * 50)
     print("STEP 2: Grid search with time series CV")
     print("=" * 50)
@@ -175,10 +181,14 @@ def grid_search(X_train, y_train):
     print(f"\nBest parameters: {grid.best_params_}")
     print(f"Best CV RMSE: {np.sqrt(-grid.best_score_):.4f}")
 
-    return grid.best_estimator_, grid.cv_results_
+    step_time = time.time() - step_start
+    print(f"\n  Step 2 time: {step_time:.1f}s")
+
+    return grid.best_estimator_, grid.cv_results_, step_time
 
 
 def evaluate_model(model, X_test, y_test, feature_cols):
+    step_start = time.time()
     print("\n" + "=" * 50)
     print("STEP 3: Evaluating on test set")
     print("=" * 50)
@@ -203,16 +213,20 @@ def evaluate_model(model, X_test, y_test, feature_cols):
     print(f"\nTop 15 Features:")
     print(feature_importance.head(15).to_string(index=False))
 
+    step_time = time.time() - step_start
+    print(f"\n  Step 3 time: {step_time:.1f}s")
+
     return {
         "r2": float(r2),
         "mae": float(mae),
         "rmse": float(rmse),
         "mape": float(mape),
         "feature_importance": feature_importance.to_dict("records"),
-    }
+    }, step_time
 
 
 def save_results(model, metrics, cv_results, run_id=None):
+    step_start = time.time()
     print("\n" + "=" * 50)
     print("STEP 4: Saving results")
     print("=" * 50)
@@ -243,6 +257,9 @@ def save_results(model, metrics, cv_results, run_id=None):
         )
         print(f"  Saved: {run_dir}/")
 
+    step_time = time.time() - step_start
+    print(f"\n  Step 4 time: {step_time:.1f}s")
+
 
 def main():
     start_time = time.time()
@@ -252,11 +269,11 @@ def main():
     print(f"  Prediction horizon: {PREDICTION_HORIZON} timesteps (10-min)")
     print(f"  Target: 1 hour ahead")
 
-    X_train, y_train, X_test, y_test, feature_cols = prepare_data()
+    X_train, y_train, X_test, y_test, feature_cols, time_step1 = prepare_data()
 
-    best_model, cv_results = grid_search(X_train, y_train)
+    best_model, cv_results, time_step2 = grid_search(X_train, y_train)
 
-    metrics = evaluate_model(best_model, X_test, y_test, feature_cols)
+    metrics, time_step3 = evaluate_model(best_model, X_test, y_test, feature_cols)
 
     elapsed_time = time.time() - start_time
 
@@ -269,6 +286,11 @@ def main():
         "extended_lags": EXTENDED_LAGS,
         "rolling_windows": ROLLING_WINDOWS,
         "grid_search": GRID_SEARCH_PARAMS,
+        "step_times": {
+            "step1_data": round(time_step1, 1),
+            "step2_gridsearch": round(time_step2, 1),
+            "step3_evaluate": round(time_step3, 1),
+        },
     }
 
     is_best, previous_best_r2, run_id = log_run(
