@@ -48,8 +48,8 @@ XGB_PARAMS = {
 }
 
 GRID_SEARCH_PARAMS = {
-    "max_depth": [6, 8],
-    "n_estimators": [200, 400],
+    "max_depth": [6],
+    "n_estimators": [100],
     "learning_rate": [0.1],
-    "min_child_weight": [1, 3],
+    "min_child_weight": [1],
 }
