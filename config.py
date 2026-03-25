@@ -29,9 +29,12 @@ COLUMN_RENAME = {
     "tde200s0": "dew_point",
 }
 
-LAG_FEATURES = ["wind_speed", "pressure", "temperature"]
+LAG_FEATURES = ["wind_speed", "pressure", "temperature", "humidity"]
 ROLLING_FEATURES = ["wind_speed", "pressure", "temperature"]
 WINDOW_SIZE = 6
+
+EXTENDED_LAGS = [1, 2, 3, 4, 5, 6, 12, 18, 24]
+ROLLING_WINDOWS = [6, 12, 24]
 
 TRAIN_YEARS = list(range(2000, 2020))
 TEST_YEARS = list(range(2020, 2030))

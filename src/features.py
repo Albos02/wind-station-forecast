@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from config import LAG_FEATURES, ROLLING_FEATURES, WINDOW_SIZE
+from config import LAG_FEATURES, ROLLING_FEATURES, WINDOW_SIZE, EXTENDED_LAGS
 
 
 def temporal_cycles(df: pd.DataFrame) -> pd.DataFrame:
@@ -21,32 +21,37 @@ def temporal_cycles(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def lag_features(
-    df: pd.DataFrame, features: list = LAG_FEATURES, n_lags: int = WINDOW_SIZE
+    df: pd.DataFrame, features: list = LAG_FEATURES, n_lags: list = None
 ) -> pd.DataFrame:
     """Add lagged features for past n timesteps."""
+    if n_lags is None:
+        n_lags = EXTENDED_LAGS
     df = df.copy()
     for feat in features:
         if feat not in df.columns:
             continue
-        for lag in range(1, n_lags + 1):
+        for lag in n_lags:
             df[f"{feat}_lag_{lag}"] = df[feat].shift(lag)
     return df
 
 
 def rolling_features(
-    df: pd.DataFrame, features: list = ROLLING_FEATURES, window: int = WINDOW_SIZE
+    df: pd.DataFrame, features: list = ROLLING_FEATURES, windows: list = None
 ) -> pd.DataFrame:
     """Add rolling statistics (mean, std) over past window timesteps."""
+    if windows is None:
+        windows = [6, 12, 24]
     df = df.copy()
     for feat in features:
         if feat not in df.columns:
             continue
-        df[f"{feat}_rolling_mean_{window}"] = (
-            df[feat].rolling(window=window, min_periods=1).mean()
-        )
-        df[f"{feat}_rolling_std_{window}"] = (
-            df[feat].rolling(window=window, min_periods=1).std()
-        )
+        for window in windows:
+            df[f"{feat}_rolling_mean_{window}"] = (
+                df[feat].rolling(window=window, min_periods=1).mean()
+            )
+            df[f"{feat}_rolling_std_{window}"] = (
+                df[feat].rolling(window=window, min_periods=1).std()
+            )
     return df
 
 
@@ -62,12 +67,13 @@ def direction_features(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def trend_features(df: pd.DataFrame) -> pd.DataFrame:
-    """Add linear trend over past window (pressure/temperature change)."""
+    """Add linear trend over past windows (pressure/temperature change)."""
     df = df.copy()
     for feat in ["pressure", "temperature"]:
         if feat not in df.columns:
             continue
-        df[f"{feat}_trend_{WINDOW_SIZE}"] = df[feat] - df[feat].shift(WINDOW_SIZE)
+        for window in [6, 12, 24]:
+            df[f"{feat}_trend_{window}"] = df[feat] - df[feat].shift(window)
     return df
 
 
