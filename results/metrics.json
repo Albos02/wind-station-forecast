@@ -1,144 +1,280 @@
 {
-  "r2": 0.527436947059211,
-  "mae": 0.887513648457383,
-  "rmse": 1.3255551665500462,
-  "mape": 2808568274.605216,
+  "r2": 0.5362590824004069,
+  "mae": 0.8794569881878258,
+  "rmse": 1.313123680974286,
+  "mape": 2752424113.5696635,
   "feature_importance": [
     {
       "feature": "wind_speed_rolling_mean_6",
-      "importance": 0.7692627906799316
+      "importance": 0.6892009377479553
     },
     {
       "feature": "wind_speed_lag_1",
-      "importance": 0.05876404047012329
+      "importance": 0.0679587870836258
+    },
+    {
+      "feature": "wind_speed_rolling_mean_12",
+      "importance": 0.04786539077758789
+    },
+    {
+      "feature": "wind_speed_rolling_mean_24",
+      "importance": 0.022139547392725945
     },
     {
       "feature": "wind_u",
-      "importance": 0.017804782837629318
-    },
-    {
-      "feature": "wind_speed_lag_6",
-      "importance": 0.013032951392233372
+      "importance": 0.01168117392808199
     },
     {
       "feature": "wind_v",
-      "importance": 0.012163469567894936
+      "importance": 0.007640029303729534
+    },
+    {
+      "feature": "wind_speed_rolling_std_12",
+      "importance": 0.00533732445910573
     },
     {
       "feature": "wind_speed_rolling_std_6",
-      "importance": 0.010538242757320404
+      "importance": 0.004861466586589813
+    },
+    {
+      "feature": "wind_speed_rolling_std_24",
+      "importance": 0.0047455341555178165
     },
     {
       "feature": "pressure_rolling_mean_6",
-      "importance": 0.008103881031274796
+      "importance": 0.004481925163418055
     },
     {
       "feature": "hour_cos",
-      "importance": 0.006061051040887833
+      "importance": 0.004303171765059233
     },
     {
-      "feature": "pressure_lag_6",
-      "importance": 0.005833828821778297
-    },
-    {
-      "feature": "day_of_year_cos",
-      "importance": 0.005625216290354729
-    },
-    {
-      "feature": "temperature_trend_6",
-      "importance": 0.005127965938299894
-    },
-    {
-      "feature": "pressure_rolling_std_6",
-      "importance": 0.005121167283505201
-    },
-    {
-      "feature": "pressure_trend_6",
-      "importance": 0.004993289243429899
-    },
-    {
-      "feature": "pressure_lag_1",
-      "importance": 0.004492340609431267
-    },
-    {
-      "feature": "temperature_rolling_mean_6",
-      "importance": 0.004240612033754587
-    },
-    {
-      "feature": "pressure_lag_5",
-      "importance": 0.004101863596588373
+      "feature": "humidity_lag_1",
+      "importance": 0.004154718015342951
     },
     {
       "feature": "pressure_lag_2",
-      "importance": 0.004092258866876364
+      "importance": 0.003941821400076151
     },
     {
-      "feature": "temperature_lag_6",
-      "importance": 0.004073462449014187
+      "feature": "pressure_lag_12",
+      "importance": 0.003853751113638282
     },
     {
-      "feature": "month_sin",
-      "importance": 0.004065939225256443
+      "feature": "temperature_trend_24",
+      "importance": 0.0037153628654778004
     },
     {
-      "feature": "month_cos",
-      "importance": 0.0039679063484072685
+      "feature": "temperature_trend_12",
+      "importance": 0.003500056453049183
+    },
+    {
+      "feature": "pressure_trend_6",
+      "importance": 0.003415156854316592
+    },
+    {
+      "feature": "pressure_rolling_mean_24",
+      "importance": 0.003389430930837989
+    },
+    {
+      "feature": "day_of_year_cos",
+      "importance": 0.0032863516826182604
+    },
+    {
+      "feature": "pressure_lag_5",
+      "importance": 0.0030884388834238052
+    },
+    {
+      "feature": "temperature_trend_6",
+      "importance": 0.003083566203713417
+    },
+    {
+      "feature": "pressure_lag_18",
+      "importance": 0.003040571929886937
     },
     {
       "feature": "hour_sin",
-      "importance": 0.003918306436389685
+      "importance": 0.002999010728672147
     },
     {
-      "feature": "temperature_lag_2",
-      "importance": 0.0038748090155422688
+      "feature": "pressure_rolling_std_6",
+      "importance": 0.0029006502591073513
     },
     {
-      "feature": "pressure_lag_4",
-      "importance": 0.003759892890229821
+      "feature": "temperature_lag_12",
+      "importance": 0.002673923736438155
+    },
+    {
+      "feature": "month_cos",
+      "importance": 0.002671419642865658
+    },
+    {
+      "feature": "pressure_lag_24",
+      "importance": 0.0026012214366346598
+    },
+    {
+      "feature": "temperature_rolling_mean_12",
+      "importance": 0.0024531225208193064
+    },
+    {
+      "feature": "temperature_lag_18",
+      "importance": 0.00240317708812654
     },
     {
       "feature": "day_of_year_sin",
-      "importance": 0.003738291561603546
-    },
-    {
-      "feature": "temperature_rolling_std_6",
-      "importance": 0.00370526360347867
-    },
-    {
-      "feature": "wind_speed_lag_2",
-      "importance": 0.0036915007513016462
-    },
-    {
-      "feature": "temperature_lag_5",
-      "importance": 0.0036557097919285297
-    },
-    {
-      "feature": "temperature_lag_3",
-      "importance": 0.003563124919310212
-    },
-    {
-      "feature": "temperature_lag_4",
-      "importance": 0.0033911254722625017
+      "importance": 0.002364970277994871
     },
     {
       "feature": "wind_speed_lag_4",
-      "importance": 0.003288122359663248
+      "importance": 0.002305345144122839
+    },
+    {
+      "feature": "pressure_lag_1",
+      "importance": 0.002238496672362089
+    },
+    {
+      "feature": "humidity_lag_12",
+      "importance": 0.002230217447504401
     },
     {
       "feature": "pressure_lag_3",
-      "importance": 0.003120769513770938
+      "importance": 0.0021946250926703215
+    },
+    {
+      "feature": "wind_speed_lag_2",
+      "importance": 0.0021839637774974108
+    },
+    {
+      "feature": "temperature_rolling_mean_24",
+      "importance": 0.002127340529114008
+    },
+    {
+      "feature": "pressure_rolling_std_12",
+      "importance": 0.002116309478878975
+    },
+    {
+      "feature": "temperature_rolling_std_6",
+      "importance": 0.002084271516650915
+    },
+    {
+      "feature": "pressure_trend_24",
+      "importance": 0.0020838608033955097
+    },
+    {
+      "feature": "wind_speed_lag_12",
+      "importance": 0.002080499427393079
+    },
+    {
+      "feature": "humidity_lag_6",
+      "importance": 0.0020699109882116318
+    },
+    {
+      "feature": "wind_speed_lag_24",
+      "importance": 0.0020447506103664637
+    },
+    {
+      "feature": "month_sin",
+      "importance": 0.0020288818050175905
+    },
+    {
+      "feature": "pressure_lag_6",
+      "importance": 0.002010291675105691
+    },
+    {
+      "feature": "temperature_rolling_mean_6",
+      "importance": 0.001971912570297718
+    },
+    {
+      "feature": "pressure_trend_12",
+      "importance": 0.001956039806827903
+    },
+    {
+      "feature": "pressure_rolling_std_24",
+      "importance": 0.0019560023210942745
     },
     {
       "feature": "temperature_lag_1",
-      "importance": 0.0031025060452520847
+      "importance": 0.0019527813419699669
+    },
+    {
+      "feature": "pressure_rolling_mean_12",
+      "importance": 0.0019406159408390522
+    },
+    {
+      "feature": "temperature_rolling_std_12",
+      "importance": 0.0019403541227802634
+    },
+    {
+      "feature": "temperature_lag_24",
+      "importance": 0.001923278090544045
+    },
+    {
+      "feature": "humidity_lag_4",
+      "importance": 0.0018883644370362163
+    },
+    {
+      "feature": "temperature_lag_6",
+      "importance": 0.0018634941661730409
+    },
+    {
+      "feature": "humidity_lag_5",
+      "importance": 0.0018131034448742867
+    },
+    {
+      "feature": "humidity_lag_18",
+      "importance": 0.0017994472291320562
+    },
+    {
+      "feature": "humidity_lag_2",
+      "importance": 0.0017980873817577958
+    },
+    {
+      "feature": "temperature_rolling_std_24",
+      "importance": 0.0016723654698580503
+    },
+    {
+      "feature": "humidity_lag_24",
+      "importance": 0.0016416168073192239
     },
     {
       "feature": "wind_speed_lag_3",
-      "importance": 0.002986331470310688
+      "importance": 0.001625007251277566
+    },
+    {
+      "feature": "temperature_lag_3",
+      "importance": 0.0015810407930985093
+    },
+    {
+      "feature": "temperature_lag_5",
+      "importance": 0.001578531344421208
     },
     {
       "feature": "wind_speed_lag_5",
-      "importance": 0.0027372001204639673
+      "importance": 0.0015467959456145763
+    },
+    {
+      "feature": "pressure_lag_4",
+      "importance": 0.0015459569403901696
+    },
+    {
+      "feature": "wind_speed_lag_18",
+      "importance": 0.0014191655209288
+    },
+    {
+      "feature": "humidity_lag_3",
+      "importance": 0.001366034266538918
+    },
+    {
+      "feature": "wind_speed_lag_6",
+      "importance": 0.001351843704469502
+    },
+    {
+      "feature": "temperature_lag_2",
+      "importance": 0.001227764063514769
+    },
+    {
+      "feature": "temperature_lag_4",
+      "importance": 0.0010895213345065713
     }
   ]
 }
