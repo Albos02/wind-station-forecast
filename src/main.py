@@ -72,10 +72,16 @@ def log_run(commit, branch, config_summary, metrics, elapsed_time):
     else:
         runs = []
 
+    previous_best_r2 = max((r["metrics"]["r2"] for r in runs), default=None)
+    is_best = metrics["r2"] > previous_best_r2 if previous_best_r2 is not None else True
+    run_entry["is_best"] = is_best
+
     runs.append(run_entry)
 
     with open(run_log_path, "w") as f:
         json.dump(runs, f, indent=2)
+
+    return is_best, previous_best_r2
 
 
 def prepare_data():
@@ -242,9 +248,22 @@ def main():
     log_run(commit, branch, config_summary, metrics, elapsed_time)
     print(f"\n  Saved: runs/run_log.json")
 
+    run_log_path = "runs/run_log.json"
+    with open(run_log_path, "r") as f:
+        runs = json.load(f)
+    current_run = runs[-1]
+
     print("\n" + "=" * 50)
     print("PIPELINE COMPLETE")
     print(f"  Elapsed time: {elapsed_time:.1f} seconds")
+    if current_run.get("is_best"):
+        print(
+            f"  ★ NEW BEST R²: {metrics['r2']:.4f} (previous best: {runs[-2]['metrics']['r2']:.4f})"
+            if len(runs) > 1
+            else f"  ★ FIRST RUN - R²: {metrics['r2']:.4f}"
+        )
+    else:
+        print(f"  Best R² so far: {max(r['metrics']['r2'] for r in runs):.4f}")
     print("=" * 50)
 
 
