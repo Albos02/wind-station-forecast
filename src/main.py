@@ -62,12 +62,15 @@ def log_run(commit, branch, config_summary, metrics, elapsed_time):
     os.makedirs(run_dir, exist_ok=True)
     os.makedirs(f"{run_dir}/models", exist_ok=True)
 
+    prediction_horizon = config_summary.get("prediction_horizon")
+
     run_entry = {
         "run_id": run_id,
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         "git_commit": commit,
         "git_branch": branch,
         "elapsed_seconds": round(elapsed_time, 1),
+        "prediction_horizon": prediction_horizon,
     }
 
     run_log_path = "runs/run_log.json"
@@ -77,8 +80,11 @@ def log_run(commit, branch, config_summary, metrics, elapsed_time):
     else:
         runs = []
 
+    same_horizon_runs = [
+        r for r in runs if r.get("prediction_horizon") == prediction_horizon
+    ]
     previous_best_r2 = max(
-        (r.get("metrics", {}).get("r2", 0) for r in runs), default=None
+        (r.get("metrics", {}).get("r2", 0) for r in same_horizon_runs), default=None
     )
     is_best = metrics["r2"] > previous_best_r2 if previous_best_r2 is not None else True
     run_entry["is_best"] = is_best
@@ -268,7 +274,13 @@ def main():
     print("Wind Speed Prediction Pipeline")
     print(f"  Station: {STATION}")
     print(f"  Prediction horizon: {PREDICTION_HORIZON} timesteps (10-min)")
-    print(f"  Target: 1 hour ahead")
+    mins = PREDICTION_HORIZON * 10
+    if mins >= 60:
+        hours = mins / 60
+        hours_str = f" ({hours}h)"
+    else:
+        hours_str = ""
+    print(f"  Target: {mins} min ahead{hours_str}")
 
     X_train, y_train, X_test, y_test, feature_cols, time_step1 = prepare_data()
 
@@ -312,13 +324,19 @@ def main():
     print("\n" + "=" * 50)
     print("PIPELINE COMPLETE")
     print(f"  Elapsed time: {elapsed_time:.1f} seconds")
+    same_horizon_runs = [
+        r for r in runs if r.get("prediction_horizon") == PREDICTION_HORIZON
+    ]
+    best_same_horizon = max(
+        (r.get("metrics", {}).get("r2", 0) for r in same_horizon_runs), default=None
+    )
     if is_best:
         prev = f"{previous_best_r2:.4f}" if previous_best_r2 else "N/A"
-        print(f"  ★ NEW BEST R²: {metrics['r2']:.4f} (previous best: {prev})")
-    else:
         print(
-            f"  Best R² so far: {max(r.get('metrics', {}).get('r2', 0) for r in runs):.4f}"
+            f"  ★ NEW BEST R² for horizon={PREDICTION_HORIZON}: {metrics['r2']:.4f} (prev best: {prev})"
         )
+    else:
+        print(f"  Best R² for horizon={PREDICTION_HORIZON}: {best_same_horizon:.4f}")
     print("=" * 50)
 
 
