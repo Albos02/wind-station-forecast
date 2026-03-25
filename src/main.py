@@ -1,9 +1,11 @@
 import os
 import sys
+import json
+import time
+import subprocess
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-import json
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
@@ -18,6 +20,8 @@ from config import (
     LAG_FEATURES,
     ROLLING_FEATURES,
     WINDOW_SIZE,
+    EXTENDED_LAGS,
+    ROLLING_WINDOWS,
     DATA_DIR,
     TRAIN_YEARS,
     TEST_YEARS,
@@ -29,6 +33,49 @@ from features import engineer_features, get_feature_columns
 
 os.makedirs("models", exist_ok=True)
 os.makedirs("results", exist_ok=True)
+os.makedirs("runs", exist_ok=True)
+
+
+def get_git_info():
+    try:
+        commit = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(__file__),
+        ).stdout.strip()[:8]
+        branch = subprocess.run(
+            ["git", "rev-parse", "--abbrev-ref", "HEAD"],
+            capture_output=True,
+            text=True,
+            cwd=os.path.dirname(__file__),
+        ).stdout.strip()
+        return commit, branch
+    except:
+        return "unknown", "unknown"
+
+
+def log_run(commit, branch, config_summary, metrics, elapsed_time):
+    run_log_path = "runs/run_log.json"
+    run_entry = {
+        "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "git_commit": commit,
+        "git_branch": branch,
+        "config": config_summary,
+        "metrics": metrics,
+        "elapsed_seconds": round(elapsed_time, 1),
+    }
+
+    if os.path.exists(run_log_path):
+        with open(run_log_path, "r") as f:
+            runs = json.load(f)
+    else:
+        runs = []
+
+    runs.append(run_entry)
+
+    with open(run_log_path, "w") as f:
+        json.dump(runs, f, indent=2)
 
 
 def prepare_data():
@@ -164,6 +211,8 @@ def save_results(model, metrics, cv_results):
 
 
 def main():
+    start_time = time.time()
+
     print("Wind Speed Prediction Pipeline")
     print(f"  Station: {STATION}")
     print(f"  Prediction horizon: {PREDICTION_HORIZON} timesteps (10-min)")
@@ -177,8 +226,25 @@ def main():
 
     save_results(best_model, metrics, cv_results)
 
+    elapsed_time = time.time() - start_time
+
+    commit, branch = get_git_info()
+
+    config_summary = {
+        "station": STATION,
+        "prediction_horizon": PREDICTION_HORIZON,
+        "lag_features": LAG_FEATURES,
+        "extended_lags": EXTENDED_LAGS,
+        "rolling_windows": ROLLING_WINDOWS,
+        "grid_search": GRID_SEARCH_PARAMS,
+    }
+
+    log_run(commit, branch, config_summary, metrics, elapsed_time)
+    print(f"\n  Saved: runs/run_log.json")
+
     print("\n" + "=" * 50)
     print("PIPELINE COMPLETE")
+    print(f"  Elapsed time: {elapsed_time:.1f} seconds")
     print("=" * 50)
 
 

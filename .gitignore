@@ -8,3 +8,4 @@ results/*.csv
 results/*.json
 .pytest_cache/
 *.egg-info/
+bin/
