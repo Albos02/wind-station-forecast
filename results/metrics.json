@@ -1,0 +1,144 @@
+{
+  "r2": 0.527436947059211,
+  "mae": 0.887513648457383,
+  "rmse": 1.3255551665500462,
+  "mape": 2808568274.605216,
+  "feature_importance": [
+    {
+      "feature": "wind_speed_rolling_mean_6",
+      "importance": 0.7692627906799316
+    },
+    {
+      "feature": "wind_speed_lag_1",
+      "importance": 0.05876404047012329
+    },
+    {
+      "feature": "wind_u",
+      "importance": 0.017804782837629318
+    },
+    {
+      "feature": "wind_speed_lag_6",
+      "importance": 0.013032951392233372
+    },
+    {
+      "feature": "wind_v",
+      "importance": 0.012163469567894936
+    },
+    {
+      "feature": "wind_speed_rolling_std_6",
+      "importance": 0.010538242757320404
+    },
+    {
+      "feature": "pressure_rolling_mean_6",
+      "importance": 0.008103881031274796
+    },
+    {
+      "feature": "hour_cos",
+      "importance": 0.006061051040887833
+    },
+    {
+      "feature": "pressure_lag_6",
+      "importance": 0.005833828821778297
+    },
+    {
+      "feature": "day_of_year_cos",
+      "importance": 0.005625216290354729
+    },
+    {
+      "feature": "temperature_trend_6",
+      "importance": 0.005127965938299894
+    },
+    {
+      "feature": "pressure_rolling_std_6",
+      "importance": 0.005121167283505201
+    },
+    {
+      "feature": "pressure_trend_6",
+      "importance": 0.004993289243429899
+    },
+    {
+      "feature": "pressure_lag_1",
+      "importance": 0.004492340609431267
+    },
+    {
+      "feature": "temperature_rolling_mean_6",
+      "importance": 0.004240612033754587
+    },
+    {
+      "feature": "pressure_lag_5",
+      "importance": 0.004101863596588373
+    },
+    {
+      "feature": "pressure_lag_2",
+      "importance": 0.004092258866876364
+    },
+    {
+      "feature": "temperature_lag_6",
+      "importance": 0.004073462449014187
+    },
+    {
+      "feature": "month_sin",
+      "importance": 0.004065939225256443
+    },
+    {
+      "feature": "month_cos",
+      "importance": 0.0039679063484072685
+    },
+    {
+      "feature": "hour_sin",
+      "importance": 0.003918306436389685
+    },
+    {
+      "feature": "temperature_lag_2",
+      "importance": 0.0038748090155422688
+    },
+    {
+      "feature": "pressure_lag_4",
+      "importance": 0.003759892890229821
+    },
+    {
+      "feature": "day_of_year_sin",
+      "importance": 0.003738291561603546
+    },
+    {
+      "feature": "temperature_rolling_std_6",
+      "importance": 0.00370526360347867
+    },
+    {
+      "feature": "wind_speed_lag_2",
+      "importance": 0.0036915007513016462
+    },
+    {
+      "feature": "temperature_lag_5",
+      "importance": 0.0036557097919285297
+    },
+    {
+      "feature": "temperature_lag_3",
+      "importance": 0.003563124919310212
+    },
+    {
+      "feature": "temperature_lag_4",
+      "importance": 0.0033911254722625017
+    },
+    {
+      "feature": "wind_speed_lag_4",
+      "importance": 0.003288122359663248
+    },
+    {
+      "feature": "pressure_lag_3",
+      "importance": 0.003120769513770938
+    },
+    {
+      "feature": "temperature_lag_1",
+      "importance": 0.0031025060452520847
+    },
+    {
+      "feature": "wind_speed_lag_3",
+      "importance": 0.002986331470310688
+    },
+    {
+      "feature": "wind_speed_lag_5",
+      "importance": 0.0027372001204639673
+    }
+  ]
+}
